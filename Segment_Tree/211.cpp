@@ -8,6 +8,7 @@ using namespace std;
 #define lc u<<1
 #define rc u<<1|1
 LL w[N];
+
 struct Tree{ //线段树
   LL l,r,sum,add;
 }tr[N*4];
@@ -15,6 +16,7 @@ struct Tree{ //线段树
 void pushup(LL u){ //上传
   tr[u].sum=tr[lc].sum+tr[rc].sum;
 }
+
 void pushdown(LL u){ //下传
   if(tr[u].add){
     tr[lc].sum+=tr[u].add*(tr[lc].r-tr[lc].l+1),
@@ -24,6 +26,7 @@ void pushdown(LL u){ //下传
     tr[u].add=0;      
   }
 }
+
 void build(LL u,LL l,LL r){ //建树
   tr[u]={l,r,w[l],0};
   if(l==r) return;
@@ -32,6 +35,7 @@ void build(LL u,LL l,LL r){ //建树
   build(rc,m+1,r);
   pushup(u);
 }
+
 void change(LL u,LL l,LL r,LL k){ //区修
   if(l<=tr[u].l&&tr[u].r<=r){
     tr[u].sum+=(tr[u].r-tr[u].l+1)*k;
@@ -44,6 +48,7 @@ void change(LL u,LL l,LL r,LL k){ //区修
   if(r>m) change(rc,l,r,k);
   pushup(u);
 }
+
 LL query(LL u,LL l,LL r){ //区查
   if(l<=tr[u].l && tr[u].r<=r) return tr[u].sum;
   LL m=tr[u].l+tr[u].r>>1;
